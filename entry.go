@@ -3,6 +3,7 @@ package cuslog
 import (
 	"bytes"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -38,13 +39,13 @@ func (e *Entry) write(level Level, format string, args ...interface{})  {
 	e.level = level
 
 	if !e.logger.opt.disableCaller {
-		//if pc, file, line, ok := runtime.Caller(2); !ok {
-		if pc, file, line, ok := runtime.Caller(0); !ok {
+		if pc, file, line, ok := runtime.Caller(2); !ok {
+		//if pc, file, line, ok := runtime.Caller(0); !ok {
 			e.File = "???"
 			e.Func = "???"
 		} else {
 			e.File, e.Line, e.Func = file, line, runtime.FuncForPC(pc).Name()
-			//e.Func = e.Func[strings.LastIndex(e.Func, "/")+1:]
+			e.Func = e.Func[strings.LastIndex(e.Func, "/")+1:]
 		}
 	}
 

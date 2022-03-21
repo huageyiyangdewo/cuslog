@@ -10,7 +10,6 @@ import (
 
 var std = New()
 
-
 type logger struct {
 	opt *options
 	mu sync.Mutex
